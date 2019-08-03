@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+</head>
+<body>
+<div id="myBox">
+    <table>
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td>username</td>
+            <td>pwd</td>
+        </tr>
+        <tr v-for="user in users">
+            <td v-for="(val,key) in user">
+                {{val}}
+            </td>
+        </tr>
+    </table>
+    <button @click="get()">Click</button>
+    <button @click="post()">Click</button>
+</div>
+<script>
+    window.onload = function () {
+        new Vue({
+            el: "#myBox",
+            data: {
+                users: ""
+            },
+            methods: {
+                get: function () {
+                    this.$http.get('myservlet',{params:{id:1}}).then(function (result) {
+                        console.log(result.body);
+                        this.users = result.body;
+                    },function () {
+                        console.log("error")
+                    });
+                },
+                post: function () {
+                    this.$http.get('myservlet',{params:{id:1}},{emulateJSON:true}).then(function (result) {
+                        console.log(result.body);
+                        this.users = result.body;
+                    },function () {
+                        console.log("error")
+                    });
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
